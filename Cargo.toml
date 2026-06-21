@@ -1,0 +1,58 @@
+[workspace]
+resolver = "2"
+members = [
+    "xdr-core",
+    "edr",
+    "ndr",
+    "itdr",
+    "hunting",
+    "detections",
+    "incidents",
+    "cases",
+    "soar",
+    "attack-graph",
+    "mitre",
+    "response",
+    "analytics",
+    "sdk",
+    "controller",
+    "tests",
+]
+
+[workspace.package]
+version = "0.1.0"
+edition = "2021"
+license = "Apache-2.0"
+authors = ["WireSentinel Contributors"]
+repository = "https://github.com/WireSentinel/WireSentinel-XDR"
+
+[workspace.dependencies]
+tokio = { version = "1", features = ["full"] }
+async-trait = "0.1"
+uuid = { version = "1", features = ["v4", "serde"] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+tracing = "0.1"
+parking_lot = "0.12"
+chrono = { version = "0.4", features = ["serde"] }
+anyhow = "1"
+thiserror = "2"
+regex = "1"
+
+shared-types = { path = "../WireSentinel/shared-types" }
+datalake = { path = "../WireSentinel-SSE/datalake" }
+xdr-core = { path = "xdr-core" }
+edr = { path = "edr" }
+ndr = { path = "ndr" }
+itdr = { path = "itdr" }
+hunting = { path = "hunting" }
+detections = { path = "detections" }
+incidents = { path = "incidents" }
+cases = { path = "cases" }
+soar = { path = "soar" }
+attack-graph = { path = "attack-graph" }
+mitre = { path = "mitre" }
+response = { path = "response" }
+analytics = { path = "analytics" }
+xdr-sdk = { path = "sdk" }
+xdr-controller = { path = "controller" }

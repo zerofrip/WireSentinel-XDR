@@ -1,0 +1,37 @@
+name: CI
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Checkout WireSentinel (shared-types)
+        uses: actions/checkout@v4
+        with:
+          repository: WireSentinel/WireSentinel
+          path: WireSentinel
+
+      - name: Checkout WireSentinel-SSE (datalake)
+        uses: actions/checkout@v4
+        with:
+          repository: WireSentinel/WireSentinel-SSE
+          path: WireSentinel-SSE
+
+      - uses: dtolnay/rust-toolchain@stable
+
+      - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: WireSentinel-XDR
+
+      - name: Run workspace tests
+        working-directory: WireSentinel-XDR
+        run: cargo test --workspace
