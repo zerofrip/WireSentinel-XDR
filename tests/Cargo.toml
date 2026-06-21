@@ -1,0 +1,23 @@
+[package]
+name = "xdr-integration-tests"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish = false
+
+[dependencies]
+xdr-sdk = { package = "xdr-sdk", path = "../sdk" }
+xdr-controller = { package = "xdr-controller", path = "../controller" }
+shared-types = { workspace = true }
+uuid = { workspace = true }
+chrono = { workspace = true }
+serde_json = { workspace = true }
+tokio = { workspace = true }
+
+[[test]]
+name = "platform_integration"
+path = "tests/platform_integration.rs"
+
+[[test]]
+name = "detection_to_incident"
+path = "tests/detection_to_incident.rs"
