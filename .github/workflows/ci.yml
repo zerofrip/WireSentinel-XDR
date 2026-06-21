@@ -13,17 +13,19 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          path: WireSentinel-XDR
 
       - name: Checkout WireSentinel (shared-types)
         uses: actions/checkout@v4
         with:
-          repository: WireSentinel/WireSentinel
+          repository: zerofrip/WireSentinel
           path: WireSentinel
 
       - name: Checkout WireSentinel-SSE (datalake)
         uses: actions/checkout@v4
         with:
-          repository: WireSentinel/WireSentinel-SSE
+          repository: zerofrip/WireSentinel-SSE
           path: WireSentinel-SSE
 
       - uses: dtolnay/rust-toolchain@stable
