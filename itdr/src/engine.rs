@@ -71,7 +71,9 @@ impl<E: XdrEventEmitter> IdentityThreatEngine<E> {
         let (risk, pending) = self.analyze_auth(&event);
         for threat in pending {
             self.emitter.emit(shared_types::ServiceEvent::now(
-                ServiceEventInner::IdentityThreatDetected { threat: threat.clone() },
+                ServiceEventInner::IdentityThreatDetected {
+                    threat: threat.clone(),
+                },
             ));
             if threat.severity == XdrSeverity::Critical
                 && threat.threat_kind == IdentityThreatKind::TokenTheft
@@ -256,7 +258,9 @@ mod tests {
     fn detects_mfa_bypass() {
         let emitter = CollectingEmitter::new();
         let engine = IdentityThreatEngine::new(&emitter);
-        engine.ingest_auth(auth(true, false, "40.0,-74.0,NYC")).unwrap();
+        engine
+            .ingest_auth(auth(true, false, "40.0,-74.0,NYC"))
+            .unwrap();
         assert_eq!(emitter.drain().len(), 1);
     }
 

@@ -1,9 +1,7 @@
 use chrono::Utc;
 use datalake::{SecurityDataLake, SecurityQueryEngine};
 use parking_lot::RwLock;
-use shared_types::{
-    Hunt, HuntQueryKind, HuntResult, HuntStatus, HuntTimeline, HuntTimelineEntry,
-};
+use shared_types::{Hunt, HuntQueryKind, HuntResult, HuntStatus, HuntTimeline, HuntTimelineEntry};
 use uuid::Uuid;
 use xdr_core::{XdrError, XdrResult};
 
@@ -137,11 +135,7 @@ impl ThreatHuntingEngine {
         }
     }
 
-    fn search_historical(
-        &self,
-        query: &SecurityQueryEngine,
-        hunt: &Hunt,
-    ) -> Vec<HuntResult> {
+    fn search_historical(&self, query: &SecurityQueryEngine, hunt: &Hunt) -> Vec<HuntResult> {
         query
             .by_tenant(hunt.tenant_id)
             .into_iter()
@@ -171,11 +165,7 @@ impl ThreatHuntingEngine {
             .collect()
     }
 
-    fn search_behavioral(
-        &self,
-        query: &SecurityQueryEngine,
-        hunt: &Hunt,
-    ) -> Vec<HuntResult> {
+    fn search_behavioral(&self, query: &SecurityQueryEngine, hunt: &Hunt) -> Vec<HuntResult> {
         let needle = hunt.query.to_lowercase();
         query
             .by_kind("behavior")
@@ -192,11 +182,7 @@ impl ThreatHuntingEngine {
             .collect()
     }
 
-    fn search_correlation(
-        &self,
-        query: &SecurityQueryEngine,
-        hunt: &Hunt,
-    ) -> Vec<HuntResult> {
+    fn search_correlation(&self, query: &SecurityQueryEngine, hunt: &Hunt) -> Vec<HuntResult> {
         let kinds: Vec<&str> = hunt.query.split('+').map(str::trim).collect();
         if kinds.len() < 2 {
             return Vec::new();
@@ -227,11 +213,7 @@ mod tests {
     fn runs_ioc_hunt() {
         let lake = SecurityDataLake::new(RetentionPolicy::Days30);
         let tenant = Uuid::new_v4();
-        lake.ingest(
-            tenant,
-            "process",
-            serde_json::json!({"hash": "evil"}),
-        );
+        lake.ingest(tenant, "process", serde_json::json!({"hash": "evil"}));
         let engine = ThreatHuntingEngine::new(lake);
         let hunt = engine.create_hunt(tenant, "ioc-hunt", HuntQueryKind::Ioc, "evil");
         let results = engine.run_hunt(hunt.id).unwrap();

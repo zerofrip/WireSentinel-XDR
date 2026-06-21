@@ -53,7 +53,11 @@ impl CaseManagementEngine {
         case_record
     }
 
-    pub fn assign_investigator(&self, case_id: Uuid, investigator: impl Into<String>) -> XdrResult<Case> {
+    pub fn assign_investigator(
+        &self,
+        case_id: Uuid,
+        investigator: impl Into<String>,
+    ) -> XdrResult<Case> {
         let mut state = self.state.write();
         let case_record = state
             .cases

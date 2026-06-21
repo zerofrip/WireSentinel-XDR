@@ -87,11 +87,7 @@ impl<E: XdrEventEmitter> NdrEngine<E> {
     fn analyze_dns(&self, query: &DnsQuery) {
         let suspicious = query.query_name.len() > 60
             || query.query_name.matches('.').count() > 6
-            || query
-                .query_name
-                .chars()
-                .filter(|c| c.is_numeric())
-                .count()
+            || query.query_name.chars().filter(|c| c.is_numeric()).count()
                 > query.query_name.len() / 2;
 
         if suspicious {
@@ -115,10 +111,7 @@ impl<E: XdrEventEmitter> NdrEngine<E> {
     fn analyze_beaconing(&self, flow: &NetworkFlow) {
         let key = format!("{}:{}:{}", flow.device_id, flow.dest_ip, flow.dest_port);
         let mut state = self.state.write();
-        let window = state
-            .beacon_windows
-            .entry(key.clone())
-            .or_default();
+        let window = state.beacon_windows.entry(key.clone()).or_default();
         window.push(flow.observed_at);
         window.retain(|t| *t >= Utc::now() - BEACON_WINDOW);
 

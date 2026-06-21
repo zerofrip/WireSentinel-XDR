@@ -35,12 +35,10 @@ fn end_to_end_ingest_and_hunt() {
         .hunting
         .lake()
         .ingest(tenant, "process", serde_json::json!({"device_id": device}));
-    let hunt = platform.hunting.create_hunt(
-        tenant,
-        "integration",
-        HuntQueryKind::Historical,
-        "process",
-    );
+    let hunt =
+        platform
+            .hunting
+            .create_hunt(tenant, "integration", HuntQueryKind::Historical, "process");
     let results = platform.hunting.run_hunt(hunt.id).unwrap();
     assert!(!results.is_empty() || platform.drain_events().len() > 0);
 }

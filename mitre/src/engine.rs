@@ -42,7 +42,8 @@ fn builtin_techniques() -> Vec<MitreTechnique> {
             technique_id: "T1078".into(),
             name: "Valid Accounts".into(),
             tactic: "Defense Evasion".into(),
-            description: "Adversaries may obtain and abuse credentials of existing accounts.".into(),
+            description: "Adversaries may obtain and abuse credentials of existing accounts."
+                .into(),
         },
     ]
 }

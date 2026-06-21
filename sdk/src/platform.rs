@@ -80,7 +80,9 @@ mod tests {
     #[test]
     fn shared_emitter_collects_events() {
         let platform = XdrPlatform::new();
-        platform.cases.create_case(uuid::Uuid::new_v4(), "test", None);
+        platform
+            .cases
+            .create_case(uuid::Uuid::new_v4(), "test", None);
         assert!(platform.drain_events().is_empty());
     }
 }

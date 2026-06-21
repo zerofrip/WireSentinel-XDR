@@ -117,10 +117,9 @@ impl<E: XdrEventEmitter> EdrEngine<E> {
                 description: format!("Suspicious process: {}", event.process_name),
                 detected_at: Utc::now(),
             };
-            self.emitter
-                .emit(shared_types::ServiceEvent::now(ServiceEventInner::ProcessAnomalyDetected {
-                    anomaly,
-                }));
+            self.emitter.emit(shared_types::ServiceEvent::now(
+                ServiceEventInner::ProcessAnomalyDetected { anomaly },
+            ));
         }
     }
 

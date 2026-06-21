@@ -83,7 +83,8 @@ impl XdrAnalyticsService {
 
         let mttr_hours = compute_mttr(&tenant_incidents);
 
-        let fleet_threat_score = compute_threat_score(open, critical, total_detections, techniques_detected);
+        let fleet_threat_score =
+            compute_threat_score(open, critical, total_detections, techniques_detected);
 
         XdrAnalyticsSummary {
             tenant_id,
@@ -109,7 +110,10 @@ impl Default for XdrAnalyticsService {
 fn compute_mttr(incidents: &[&Incident]) -> f64 {
     let resolved: Vec<_> = incidents
         .iter()
-        .filter_map(|i| i.resolved_at.map(|r| (r - i.created_at).num_minutes() as f64 / 60.0))
+        .filter_map(|i| {
+            i.resolved_at
+                .map(|r| (r - i.created_at).num_minutes() as f64 / 60.0)
+        })
         .collect();
     if resolved.is_empty() {
         return 0.0;
@@ -117,12 +121,7 @@ fn compute_mttr(incidents: &[&Incident]) -> f64 {
     resolved.iter().sum::<f64>() / resolved.len() as f64
 }
 
-fn compute_threat_score(
-    open: u64,
-    critical: u64,
-    detections: u64,
-    techniques: u32,
-) -> f64 {
+fn compute_threat_score(open: u64, critical: u64, detections: u64, techniques: u32) -> f64 {
     (open as f64 * 2.0 + critical as f64 * 5.0 + detections as f64 + techniques as f64 * 3.0)
         .min(100.0)
 }

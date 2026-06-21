@@ -100,10 +100,12 @@ impl ResponseEngine {
         self.state.write().results.push(result.clone());
 
         let event = match status {
-            ResponseActionStatus::Executed => {
-                ServiceEventInner::ResponseActionExecuted { result: result.clone() }
-            }
-            _ => ServiceEventInner::ResponseActionFailed { result: result.clone() },
+            ResponseActionStatus::Executed => ServiceEventInner::ResponseActionExecuted {
+                result: result.clone(),
+            },
+            _ => ServiceEventInner::ResponseActionFailed {
+                result: result.clone(),
+            },
         };
         self.emitter.emit(shared_types::ServiceEvent::now(event));
 

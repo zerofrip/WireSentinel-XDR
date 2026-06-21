@@ -39,15 +39,16 @@ fn detection_triggers_incident() {
     platform.analytics.record_incident(incident.clone());
     platform.analytics.record_detection(triggers[0].clone());
 
-    let techniques = platform.mitre.on_detection_triggered(
-        &triggers[0],
-        &["T1059.001".into()],
-    );
+    let techniques = platform
+        .mitre
+        .on_detection_triggered(&triggers[0], &["T1059.001".into()]);
     for t in techniques {
         platform.analytics.record_technique(t);
     }
 
-    let summary = platform.analytics.summarize(tenant, platform.mitre.coverage_pct());
+    let summary = platform
+        .analytics
+        .summarize(tenant, platform.mitre.coverage_pct());
     assert_eq!(summary.total_incidents, 1);
     assert!(summary.total_detections >= 1);
 }
@@ -56,9 +57,10 @@ fn detection_triggers_incident() {
 fn case_links_to_incident() {
     let platform = XdrPlatform::new();
     let tenant = Uuid::new_v4();
-    let incident = platform
-        .incidents
-        .create_incident(tenant, "Case link test", XdrSeverity::Medium, None);
+    let incident =
+        platform
+            .incidents
+            .create_incident(tenant, "Case link test", XdrSeverity::Medium, None);
     let case_record = platform
         .cases
         .create_case(tenant, "Investigation", Some(incident.id));
@@ -67,7 +69,11 @@ fn case_links_to_incident() {
         .assign_investigator(case_record.id, "lead-analyst")
         .unwrap();
     assert_eq!(
-        platform.cases.get_case(case_record.id).unwrap().investigator,
+        platform
+            .cases
+            .get_case(case_record.id)
+            .unwrap()
+            .investigator,
         Some("lead-analyst".into())
     );
 }

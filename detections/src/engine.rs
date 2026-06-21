@@ -120,8 +120,14 @@ impl<E: XdrEventEmitter> DetectionEngine<E> {
         let match_record = DetectionMatch {
             id: Uuid::new_v4(),
             rule_id: rule.id,
-            device_id: event.get("device_id").and_then(|v| v.as_str()).and_then(|s| Uuid::parse_str(s).ok()),
-            user_id: event.get("user_id").and_then(|v| v.as_str()).map(str::to_string),
+            device_id: event
+                .get("device_id")
+                .and_then(|v| v.as_str())
+                .and_then(|s| Uuid::parse_str(s).ok()),
+            user_id: event
+                .get("user_id")
+                .and_then(|v| v.as_str())
+                .map(str::to_string),
             summary: format!("Rule '{}' matched", rule.name),
             matched_at: Utc::now(),
         };
@@ -187,7 +193,10 @@ impl<E: XdrEventEmitter> DetectionEngine<E> {
             return false;
         }
 
-        let current = event.get("event_kind").and_then(|v| v.as_str()).unwrap_or("");
+        let current = event
+            .get("event_kind")
+            .and_then(|v| v.as_str())
+            .unwrap_or("");
         if !kinds.iter().any(|k| k.as_str() == Some(current)) {
             return false;
         }

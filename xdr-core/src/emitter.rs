@@ -19,7 +19,9 @@ pub struct CollectingEmitter {
 
 impl CollectingEmitter {
     pub fn new() -> Self {
-        Self { events: parking_lot::Mutex::new(Vec::new()) }
+        Self {
+            events: parking_lot::Mutex::new(Vec::new()),
+        }
     }
 
     pub fn drain(&self) -> Vec<ServiceEvent> {
@@ -28,7 +30,9 @@ impl CollectingEmitter {
 }
 
 impl Default for CollectingEmitter {
-    fn default() -> Self { Self::new() }
+    fn default() -> Self {
+        Self::new()
+    }
 }
 
 impl XdrEventEmitter for CollectingEmitter {
