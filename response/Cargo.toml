@@ -1,0 +1,16 @@
+[package]
+name = "response"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[dependencies]
+xdr-core = { workspace = true }
+shared-types = { workspace = true }
+uuid = { workspace = true }
+chrono = { workspace = true }
+parking_lot = { workspace = true }
+async-trait = { workspace = true }
+
+[dev-dependencies]
+tokio = { workspace = true }
