@@ -21,3 +21,7 @@ Extended Detection and Response (XDR) platform for the WireSentinel ecosystem.
 ```bash
 cargo test --workspace
 ```
+
+## License
+
+Apache-2.0. See [LICENSE](LICENSE).
